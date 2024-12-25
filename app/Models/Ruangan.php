@@ -11,7 +11,7 @@ class Ruangan extends Model
     protected $fillable = [
         'nama',
         'gedung_id',
-        'status'
+        'status',
     ];
 
     public function gedung()

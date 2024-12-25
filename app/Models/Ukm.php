@@ -9,8 +9,8 @@ class Ukm extends Model
 {
     use HasFactory;
     protected $fillable = [
-       'nama_ukm',
+       'nama',
        'nama_ketua',
-       'nomer_ketua',
+       'nomer_ketua'
     ];
 }

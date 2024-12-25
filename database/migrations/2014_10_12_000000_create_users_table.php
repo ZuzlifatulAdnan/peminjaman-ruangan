@@ -17,9 +17,11 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->string('role');
-            $table->string('no_whatsapp');
-            $table->string('image');
+            $table->enum('role', ['Admin', 'PLPP', 'Mahasiswa', 'Dosen']); // Role (Mahasiswa/Dosen)
+            $table->string('no_whatsapp')->nullable();
+            $table->string('image')->nullable();
+            $table->string('npm')->nullable(); // Nomor Pokok Mahasiswa (untuk Mahasiswa)
+            $table->string('nip')->nullable(); // Nomor Induk Pegawai (untuk Dosen)
             $table->rememberToken();
             $table->timestamps();
         });

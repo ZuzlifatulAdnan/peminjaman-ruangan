@@ -15,12 +15,12 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained('users')->cascadeOnDelete()->cascadeOnUpdate();
             $table->foreignId('ruangan_id')->constrained('ruangans')->cascadeOnDelete()->cascadeOnUpdate();
-            $table->foreignId('ukm_id')->constrained('ukms')->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreignId('ukm_id')->constrained('ukms')->cascadeOnDelete()->cascadeOnUpdate()->nullable();
             $table->date('tanggal_pesan');
             $table->time('waktu_mulai');
             $table->time('waktu_selesai');
             $table->text('tujuan');
-            $table->string('status');
+            $table->string('status')->nullable();
             $table->timestamps();
         });
     }
