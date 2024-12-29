@@ -3,6 +3,7 @@
 @section('title', 'Peminjaman')
 
 @push('style')
+<!-- Tambahkan CSS tambahan di sini jika diperlukan -->
 @endpush
 
 @section('main')
@@ -14,7 +15,7 @@
                         <h4>Detail Peminjaman</h4>
                     </div>
                     <div class="card-body">
-                        @if($pemesanan)
+                        @if ($pemesanan)
                             <div class="row">
                                 @php
                                     $user = $pemesanan->user ?? null;
@@ -27,9 +28,9 @@
                                     </span>
                                     <p>
                                         {{ $user->name ?? 'Nama tidak tersedia' }}
-                                        @if($role == 'Mahasiswa')
+                                        @if ($role == 'Mahasiswa')
                                             || {{ $user->npm ?? '-' }}
-                                        @elseif($role == 'Dosen')
+                                        @elseif ($role == 'Dosen')
                                             || {{ $user->nip ?? '-' }}
                                         @endif
                                     </p>
@@ -56,7 +57,7 @@
                             <div class="row">
                                 <div class="col-md-6 detail-value">
                                     <span class="detail-header">Tanggal Pesan:</span>
-                                    <p>{{ \Carbon\Carbon::parse($pemesanan->tanggal_pesan)->format('d/m/Y') ?? 'Tanggal tidak tersedia' }}</p>
+                                    <p>{{ $pemesanan->tanggal_pesan ? \Carbon\Carbon::parse($pemesanan->tanggal_pesan)->format('d/m/Y') : 'Tanggal tidak tersedia' }}</p>
                                 </div>
                                 <div class="col-md-6 detail-value">
                                     <span class="detail-header">Waktu Mulai - Waktu Selesai:</span>
@@ -76,12 +77,11 @@
                             </div>
 
                             <div class="mt-4">
-                                <a href="{{ route('pemesanan.edit', $pemesanan->id) }}" class="btn btn-primary">Edit</a>
-                                <a href="{{ route('pemesanan.index') }}" class="btn btn-warning">Back</a>
+                                <a href="{{ route('peminjaman.index') }}" class="btn btn-warning">Back</a>
                             </div>
                         @else
                             <p class="text-danger">Data pemesanan tidak ditemukan.</p>
-                            <a href="{{ route('pemesanan.index') }}" class="btn btn-warning">Back</a>
+                            <a href="{{ route('peminjaman.index') }}" class="btn btn-warning">Back</a>
                         @endif
                     </div>
                 </div>

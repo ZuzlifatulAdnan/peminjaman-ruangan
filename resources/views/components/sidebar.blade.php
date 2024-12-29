@@ -18,19 +18,22 @@
                         class="fas fa-building"></i><span>Gedung</span></a>
             </li>
             <li class="nav-item dropdown {{ $type_menu === 'pemesanan' ? 'active' : '' }}">
-                <a href="#" class="nav-link has-dropdown"><i class="fas fa-calendar-alt"></i><span>Pemesanan</span></a>
+                <a href="#" class="nav-link has-dropdown"><i class="fas fa-calendar-alt"></i><span>Peminjaman</span></a>
                 <ul class="dropdown-menu">
                     <li class='{{ Request::is('pemesanan') ? 'active' : '' }}'>
-                        <a class="nav-link" href="{{ route('pemesanan.index') }}">Data Lengkap</a>
+                        <a class="nav-link" href="{{ route('pemesanan.index') }}">Data Peminjaman</a>
                     </li>
-                    <li class="{{ Request::is('terima') ? 'active' : '' }}">
-                        <a class="nav-link" href="">Data Proses</a>
+                    <li class="{{ Request::is('peminjaman/terima') ? 'active' : '' }}">
+                        <a class="nav-link" href="{{ url('peminjaman/terima') }}">Data Peminjaman Diterima</a>
                     </li>
-                    <li class="{{ Request::is('terima') ? 'active' : '' }}">
-                        <a class="nav-link" href="">Data Pengajuan</a>
+                    <li class="{{ Request::is('peminjaman/proses') ? 'active' : '' }}">
+                        <a class="nav-link" href="{{ url('peminjaman/proses') }}">Data Peminjaman Diproses</a>
                     </li>
-                    <li class="{{ Request::is('terima') ? 'active' : '' }}">
-                        <a class="nav-link" href="">Tambah Pengajuan</a>
+                    <li class="{{ Request::is('peminjaman/input') ? 'active' : '' }}">
+                        <a class="nav-link" href="{{ url('peminjaman/input') }}">Peminjaman</a>
+                    </li>
+                    <li class="{{ Request::is('peminjaman/riwayat') ? 'active' : '' }}">
+                        <a class="nav-link" href="{{ url('peminjaman/riwayat') }}">Riwayat Peminjaman</a>
                     </li>
                 </ul>
             </li>

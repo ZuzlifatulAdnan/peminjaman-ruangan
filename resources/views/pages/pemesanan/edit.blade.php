@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Edit Pemesanan')
+@section('title', 'Edit Peminjaman')
 
 @push('style')
     <!-- CSS Libraries -->
@@ -24,7 +24,7 @@
                             @method('PUT')
                             <div class="card">
                                 <div class="card-header">
-                                    <h4>Edit Pemesanan</h4>
+                                    <h4>Edit Peminjaman</h4>
                                 </div>
                                 <div class="card-body">
                                     <div class="row">
