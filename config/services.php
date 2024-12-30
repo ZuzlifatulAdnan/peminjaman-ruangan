@@ -31,7 +31,7 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
     'fonnte' => [
-        'api_key' => env('FONNTE_API_KEY'),
-        'api_url' => 'https://api.fonnte.com/send-message', // Pastikan URL ini sesuai dengan dokumentasi Fonnte
+        'token' => env('FONNTE_API_TOKEN'),
     ],
+    
 ];

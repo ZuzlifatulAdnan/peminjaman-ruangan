@@ -12,17 +12,11 @@ class Kernel extends ConsoleKernel
     /**
      * Define the application's command schedule.
      */
-    protected function schedule(Schedule $schedule): void
+    protected function schedule(Schedule $schedule)
     {
         $schedule->call(function () {
-            $pemesanans = Pemesanan::where('status', 'Diterima')
-                ->where('waktu_selesai', '<=', now()->addMinutes(15))
-                ->get();
-    
-            foreach ($pemesanans as $pemesanan) {
-                $pemesanan->user->notify(new PemesananStatusNotification($pemesanan, '15 menit lagi'));
-            }
-        })->everyMinute();
+            app(\App\Http\Controllers\PeminjamanController::class)->kirimNotifikasiHabis();
+        })->everyMinute(); // Jalankan setiap menit
     }
 
     /**
@@ -30,9 +24,9 @@ class Kernel extends ConsoleKernel
      */
     protected function commands(): void
     {
-        $this->load(__DIR__.'/Commands');
+        $this->load(__DIR__ . '/Commands');
 
         require base_path('routes/console.php');
     }
-    
+
 }

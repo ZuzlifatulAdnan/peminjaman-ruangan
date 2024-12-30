@@ -32,6 +32,7 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('gedung', GedungController::class);
       // Peminjaman
     Route::resource('pemesanan', PemesananController::class);
+    Route::get('/pemesanan/export', [PemesananController::class, 'export'])->name('pemesanan.export');
     Route::get('/peminjaman/riwayat', [PeminjamanController::class, 'index'])->name('peminjaman.index');
     Route::get('/peminjaman/riwayat/detail/{id}', [PeminjamanController::class, 'detail'])->name('peminjaman.detail');
     Route::get('/peminjaman/input', [PeminjamanController::class, 'input'])->name('peminjaman.input');
@@ -43,10 +44,10 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/peminjaman/terima/edit/{pemesanan}', [PeminjamanController::class, 'editTerima'])->name('peminjaman.editTerima');
     Route::patch('/peminjaman/terima/{pemesanan}', [PeminjamanController::class, 'updateTerima'])->name('peminjaman.updateTerima');
 
-    Route::resource('pesanan', PesananController::class);
     Route::resource('ruangan', RuanganController::class);
     Route::resource('ukm', UkmController::class);
     Route::resource('user', UserController::class);
+
     // Route::resource('profile', ProfileController::class);
     Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
     Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');

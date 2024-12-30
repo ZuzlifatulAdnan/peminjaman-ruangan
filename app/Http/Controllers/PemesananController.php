@@ -182,36 +182,11 @@ class PemesananController extends Controller
         // arahkan ke file pages/users/edit
         return view('pages.pemesanan.show', compact('pemesanan', 'type_menu'));
     }
-    public function exportFrom()
+    public function export(Request $request)
     {
-        $months = [
-            1 => 'Januari',
-            2 => 'Februari',
-            3 => 'Maret',
-            4 => 'April',
-            5 => 'Mei',
-            6 => 'Juni',
-            7 => 'Juli',
-            8 => 'Agustus',
-            9 => 'September',
-            10 => 'Oktober',
-            11 => 'November',
-            12 => 'Desember',
-        ];
-        $years = range(date('Y') - 10, date('Y'));
-        return view('pages.pemesanan.export', compact('years', 'months'));
-    }
-
-    public function exportDownload(Request $request)
-    {
-        $request->validate([
-            'bulan' => 'required|integer|between:1,12',
-            'tahun' => 'required|integer|min:2000|max:' . date('Y'),
-        ]);
-
-        return Excel::download(
-            new PemesananExport($request->bulan, $request->tahun),
-            'pemesanan_' . $request->bulan . '_' . $request->tahun . '.xlsx'
-        );
+        $bulan = $request->input('bulan');
+        $tahun = $request->input('tahun');
+        
+        return Excel::download(new PemesananExport($bulan, $tahun), 'pemesanan_export.xlsx');
     }
 }

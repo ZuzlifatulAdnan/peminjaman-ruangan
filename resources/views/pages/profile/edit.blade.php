@@ -104,7 +104,7 @@
                                                         class="form-control @error('no_whatsapp') is-invalid
 
                                                 @enderror"
-                                                        id="no_whatsapp" name="no_whatsapp"
+                                                        id="no_whatsapp" name="no_whatsapp" placeholder="6282176556"
                                                         value="{{ Auth::user()->no_whatsapp }}">
                                                     @error('no_whatsapp')
                                                         <div class="invalid-feedback">

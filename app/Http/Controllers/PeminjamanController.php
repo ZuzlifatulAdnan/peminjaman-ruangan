@@ -5,8 +5,11 @@ namespace App\Http\Controllers;
 use App\Models\Pemesanan;
 use App\Models\Ruangan;
 use App\Models\Ukm;
+use App\Services\FonnteService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
+use Carbon\Carbon;
 
 class PeminjamanController extends Controller
 {
@@ -89,7 +92,7 @@ class PeminjamanController extends Controller
 
         return view('pages.pesanan.index', compact('type_menu', 'ruangans', 'ukms'));
     }
-    public function store(Request $request)
+    public function store(Request $request, FonnteService $fonnteService)
     {
         $request->validate([
             'ruangan_id' => 'required',
@@ -101,7 +104,7 @@ class PeminjamanController extends Controller
         ]);
 
         // Simpan data peminjaman ruangan
-        Pemesanan::create([
+        $pemesanan = Pemesanan::create([
             'user_id' => auth()->id(),
             'ruangan_id' => $request->ruangan_id,
             'tanggal_pesan' => $request->tanggal_pesan,
@@ -111,6 +114,18 @@ class PeminjamanController extends Controller
             'tujuan' => $request->tujuan,
             'status' => 'Diproses',
         ]);
+        // Kirim notifikasi WhatsApp menggunakan Fonnte
+        $userPhone = auth()->user()->no_whatsapp; // Pastikan kolom phone ada di tabel users
+        $message = "Halo, " . auth()->user()->name . "!\n\n" .
+            "Pemesanan ruangan berhasil diajukan:\n" .
+            "Ruangan: " . $pemesanan->ruangan->nama . "\n" .
+            "Tanggal: " . $pemesanan->tanggal_pesan . "\n" .
+            "Waktu: " . $pemesanan->waktu_mulai . " WIB  -  " . $pemesanan->waktu_selesai . " WIB \n" .
+            "Status: Diproses.\n\n" .
+            "Terima kasih telah menggunakan sistem kami.";
+
+        $fonnteService->sendMessage($userPhone, $message);
+
         return redirect()->route('peminjaman.index')->with('success', 'Peminjaman ruangan berhasil diajukan!');
     }
     public function proses(Request $request)
@@ -167,15 +182,21 @@ class PeminjamanController extends Controller
                 $ruangan->update(['status' => 'Tidak Tersedia']); // Mengubah status ruangan menjadi 'Tidak Tersedia'
             }
         }
+        // Kirim notifikasi WhatsApp menggunakan Fonnte
+        $userPhone = $pemesanan->user->no_whatsapp; // Pastikan kolom phone ada di tabel users
+        $message = "Halo, " . $pemesanan->user->name . "!\n\n" .
+            "Status pemesanan ruangan Anda telah diperbarui:\n" .
+            "Ruangan: " . $pemesanan->ruangan->nama . "\n" .
+            "Tanggal: " . $pemesanan->tanggal_pesan . "\n" .
+            "Waktu: " . $pemesanan->waktu_mulai . " WIB - " . $pemesanan->waktu_selesai . " WIB \n" .
+            "Status: " . $request->status . ".\n\n" .
+            "Terima kasih telah menggunakan sistem kami.";
 
-        // Jika status diubah menjadi 'Ditolak', kembalikan status ruangan menjadi 'Tersedia'
-        if ($request->status === 'Ditolak' && $previousStatus === 'Diterima') {
-            $ruangan = $pemesanan->ruangan;
-            if ($ruangan) {
-                $ruangan->update(['status' => 'Tersedia']); // Mengembalikan status ruangan menjadi 'Tersedia'
-            }
+        // Kirim pesan hanya jika nomor telepon tersedia
+        if ($userPhone) {
+            $fonnteService = app(FonnteService::class);
+            $fonnteService->sendMessage($userPhone, $message);
         }
-
         // Redirect back with a success message
         return redirect()->route('peminjaman.proses')->with('success', 'Proses peminjaman berhasil diperbarui!');
     }
@@ -231,8 +252,63 @@ class PeminjamanController extends Controller
                 $ruangan->update(['status' => 'Tersedia']); // Mengubah status ruangan menjadi 'Tersedia'
             }
         }
+        // Kirim notifikasi WhatsApp menggunakan Fonnte
+        $userPhone = $pemesanan->user->no_whatsapp; // Pastikan kolom phone ada di tabel users
+        $message = "Halo, " . $pemesanan->user->name . "!\n\n" .
+            "Status pemesanan ruangan Anda telah diperbarui:\n" .
+            "Ruangan: " . $pemesanan->ruangan->nama . "\n" .
+            "Tanggal: " . $pemesanan->tanggal_pesan . "\n" .
+            "Waktu: " . $pemesanan->waktu_mulai . " WIB  - " . $pemesanan->waktu_selesai . " WIB \n" .
+            "Status: " . $request->status . ".\n\n" .
+            "Terima kasih telah menggunakan sistem kami.";
 
+        // Kirim pesan hanya jika nomor telepon tersedia
+        if ($userPhone) {
+            $fonnteService = app(FonnteService::class);
+            $fonnteService->sendMessage($userPhone, $message);
+        }
         // Redirect back with a success message
         return redirect()->route('peminjaman.terima')->with('success', 'Terima peminjaman berhasil diperbarui!');
+    }
+    public function kirimNotifikasiHabis()
+    {
+        // Ambil semua pemesanan yang statusnya "Diterima"
+        $pemesanans = Pemesanan::with(['user', 'ruangan.gedung'])
+            ->where('status', 'Diterima')
+            ->get()
+            ->filter(function ($pemesanan) {
+                $waktuSelesai = Carbon::parse($pemesanan->waktu_selesai);
+                $waktuSekarang = Carbon::now();
+
+                // Filter pemesanan dengan waktu selesai < 15 menit dari sekarang
+                return $waktuSelesai->greaterThan($waktuSekarang) &&
+                       $waktuSekarang->diffInMinutes($waktuSelesai, false) <= 15;
+            });
+
+        foreach ($pemesanans as $pemesanan) {
+            try {
+                $userPhone = $pemesanan->user->no_whatsapp; // Nomor WhatsApp pengguna
+                $message = "Halo, " . $pemesanan->user->name . "!\n\n" .
+                    "Peminjaman ruangan Anda akan berakhir kurang dari 15 menit:\n" .
+                    "Ruangan: " . $pemesanan->ruangan->nama . "\n" .
+                    "Tanggal: " . $pemesanan->tanggal_pesan . "\n" .
+                    "Waktu: " . $pemesanan->waktu_mulai . " WIB - " . $pemesanan->waktu_selesai . " WIB\n" .
+                    "Status: Diterima.\n\n" .
+                    "Mohon bersiap untuk mengosongkan ruangan.\n" .
+                    "Terima kasih telah menggunakan sistem kami.";
+
+                // Pastikan nomor WhatsApp tersedia
+                if ($userPhone) {
+                    $fonnteService = app(FonnteService::class); // Panggil service Fonnte
+                    $fonnteService->sendMessage($userPhone, $message);
+                } else {
+                    Log::warning("Nomor WhatsApp kosong untuk pemesanan ID: {$pemesanan->id}");
+                }
+            } catch (\Exception $e) {
+                Log::error("Error saat mengirim notifikasi untuk pemesanan ID: {$pemesanan->id}. Pesan error: " . $e->getMessage());
+            }
+        }
+
+        return response()->json(['message' => 'Notifikasi telah dikirim.']);
     }
 }

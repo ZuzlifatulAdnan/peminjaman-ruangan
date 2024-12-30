@@ -35,12 +35,12 @@
                                                 class="form-control @error('status') is-invalid @enderror" name="status"
                                                 required>
                                                 <option value="">Pilih Status</option>
-                                                <option value="Diterima"
-                                                    {{ old('status', $pemesanan->status) == 'Diterima' ? 'selected' : '' }}>
-                                                    Diterima</option>
                                                 <option value="Selesai"
                                                     {{ old('status', $pemesanan->status) == 'Selesai' ? 'selected' : '' }}>
                                                     Selesai</option>
+                                                <option value="Diterima"
+                                                    {{ old('status', $pemesanan->status) == 'Diterima' ? 'selected' : '' }}>
+                                                    Diterima</option>
                                             </select>
                                             @error('status')
                                                 <div class="invalid-feedback">{{ $message }}</div>

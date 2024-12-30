@@ -159,4 +159,39 @@ class UserController extends Controller
         // arahkan ke file pages/users/edit
         return view('pages.users.show', compact('user', 'type_menu'));
     }
+    public function register(Request $request)
+    {
+        // validasi data dari form tambah user
+        $validatedData = $request->validate([
+            'name' => 'required',
+            'email' => 'required|email|unique:users,email',
+            'password' => 'required|min:8',
+            'role' => 'required',
+            'no_whatsapp' => 'nullable|unique:users,no_whatsapp',
+            'image' => 'nullable|mimes:jpg,jpeg,png,gif',
+            'npm' => 'nullable|unique:users,npm',
+            'nip' => 'nullable|unique:users,nip',
+        ]);
+        // Handle the image upload if present
+        $imagePath = null;
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $imagePath = uniqid() . '.' . $image->getClientOriginalExtension();
+            $image->move('img/user/', $imagePath);
+        }
+        //masukan data kedalam tabel users
+        User::create([
+            'name' => $validatedData['name'],
+            'email' => $validatedData['email'],
+            'password' => Hash::make($validatedData['password']),
+            'role' => $validatedData['role'],
+            'npm' => $validatedData['npm'],
+            'nip' => $validatedData['nip'],
+            'no_whatsapp' => $validatedData['no_whatsapp'],
+            'image' => $imagePath, // Store the image path if available
+        ]);
+
+        //jika proses berhsil arahkan kembali ke halaman users dengan status success
+        return Redirect::route('register')->with('success', 'User berhasil di tambah.');
+    }
 }

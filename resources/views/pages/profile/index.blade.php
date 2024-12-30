@@ -47,8 +47,8 @@
                                                 class="btn btn-primary btn-lg btn-block">
                                                 Edit Akun
                                             </a>
-                                            {{-- <a href="{{ route('profile.change-password-form', Auth::user()) }}"
-                                                class="btn btn-warning btn-lg btn-block">Ganti Password</a> --}}
+                                            <a href="{{ route('profile.change-password-form', Auth::user()) }}"
+                                                class="btn btn-warning btn-lg btn-block">Ganti Password</a>
                                         </div>
                                     </div>
                                 </div>

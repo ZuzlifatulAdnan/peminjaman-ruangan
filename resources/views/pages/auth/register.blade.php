@@ -23,6 +23,7 @@
 <body>
     <div id="app">
         <section class="section">
+            @include('layouts.alert')
             <div class="d-flex align-items-stretch flex-wrap">
                 <div
                     class="col-lg-4 col-md-6 col-12 min-vh-100 d-flex justify-content-center align-items-center bg-whitef">
@@ -39,62 +40,75 @@
                                     Harap login menggunakan email dan password anda.
                                 @endif
                             </p> --}}
-                            <form method="POST" action="{{ route('login') }}" class="needs-validation" novalidate="">
+                            <form method="POST" action="{{ route('register') }}" class="needs-validation" novalidate="">
                                 @csrf
+                            
                                 <div class="form-group">
-                                    <label for="fullname">FullName</label>
-                                    <input id="fullname" type="text" class="form-control" name="fullname" required>
+                                    <label for="name">FullName</label>
+                                    <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" required>
+                                    @error('name')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
                                 </div>
-
+                            
                                 <div class="form-group">
                                     <label for="email">Email</label>
-                                    <input id="email" type="email" class="form-control" name="email" required>
+                                    <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required>
+                                    @error('email')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
                                 </div>
-
+                            
                                 <div class="form-group">
-                                    <label for="status">Pilih Status</label>
-                                    <select id="status" class="form-control" name="status" required
-                                        onchange="toggleAdditionalInputs()">
+                                    <label for="role">Pilih Status</label>
+                                    <select id="role" class="form-control @error('role') is-invalid @enderror" name="role" required>
                                         <option value="">Pilih Status</option>
-                                        <option value="Mahasiswa">Mahasiswa</option>
-                                        <option value="Dosen">Dosen</option>
+                                        <option value="Mahasiswa" @if(old('role') == 'Mahasiswa') selected @endif>Mahasiswa</option>
+                                        <option value="Dosen" @if(old('role') == 'Dosen') selected @endif>Dosen</option>
                                     </select>
+                                    @error('role')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
                                 </div>
-
-                                <div class="form-group d-none" id="nim-group">
-                                    <label for="nim">NIM</label>
-                                    <input id="nim" type="text" class="form-control" name="nim">
+                            
+                                <div class="form-group" id="npm-group" style="display: none;">
+                                    <label for="npm">NPM</label>
+                                    <input id="npm" type="text" class="form-control @error('npm') is-invalid @enderror" name="npm" value="{{ old('npm') }}">
+                                    @error('npm')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
                                 </div>
-
-                                <div class="form-group d-none" id="nip-group">
+                            
+                                <div class="form-group" id="nip-group" style="display: none;">
                                     <label for="nip">NIP</label>
-                                    <input id="nip" type="text" class="form-control" name="nip">
+                                    <input id="nip" type="text" class="form-control @error('nip') is-invalid @enderror" name="nip" value="{{ old('nip') }}">
+                                    @error('nip')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
                                 </div>
-
+                            
                                 <div class="form-group">
                                     <label for="password">Password</label>
-                                    <input id="password" type="password" class="form-control" name="password" required>
+                                    <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required>
+                                    @error('password')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
                                 </div>
-
+                            
                                 <div class="form-group">
-                                    <label for="confirm-password">Confirm Password</label>
-                                    <input id="confirm-password" type="password" class="form-control"
-                                        name="confirm_password" required>
+                                    <label for="password_confirmation">Confirm Password</label>
+                                    <input id="password_confirmation" type="password" class="form-control" name="password_confirmation" required>
                                 </div>
+                            
                                 <div class="form-group">
-                                    <label for="whatsapp">Nomor WhatsApp</label>
-                                    <input id="whatsapp" type="text" class="form-control" name="whatsapp" required>
+                                    <label for="no_whatsapp">Nomor WhatsApp</label>
+                                    <input id="no_whatsapp" type="text" class="form-control @error('no_whatsapp') is-invalid @enderror" name="no_whatsapp" value="{{ old('no_whatsapp') }}" required>
+                                    @error('no_whatsapp')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
                                 </div>
-
-                                <div class="form-group text-left">
-                                    <a href="{{ route('password.request') }}" class="">
-                                        Lupa Password?
-                                    </a>
-                                </div>
-
-                                <div class="d-block bg-danger">
-                                    <button class="btn btn-primary btn-lg btn-block">Daftar</button>
-                                </div>
+                            
+                                <button type="submit" class="btn btn-primary btn-lg btn-block">Daftar</button>
                             </form>
                             <div class="text-center mt-3">
                                 <p>Sudah punya akun? <a href="{{ route('login') }}">Masuk</a></p>
@@ -109,37 +123,37 @@
         </section>
     </div>
 
-     <!-- General JS Scripts -->
-     <script src="{{ asset('library/jquery/dist/jquery.min.js') }}"></script>
-     <script src="{{ asset('library/popper.js/dist/umd/popper.js') }}"></script>
-     <script src="{{ asset('library/bootstrap/dist/js/bootstrap.min.js') }}"></script>
-     <script src="{{ asset('library/jquery.nicescroll/dist/jquery.nicescroll.min.js') }}"></script>
-     <script src="{{ asset('library/moment/min/moment.min.js') }}"></script>
-     <script src="{{ asset('js/stisla.js') }}"></script>
- 
-     <!-- Template JS File -->
-     <script src="{{ asset('js/scripts.js') }}"></script>
-     <script src="{{ asset('js/custom.js') }}"></script>
- 
-     <!-- Custom Script -->
-     <script>
-         function toggleAdditionalInputs() {
-             const status = document.getElementById('status').value;
-             const nimGroup = document.getElementById('nim-group');
-             const nipGroup = document.getElementById('nip-group');
- 
-             if (status === 'Mahasiswa') {
-                 nimGroup.classList.remove('d-none');
-                 nipGroup.classList.add('d-none');
-             } else if (status === 'Dosen') {
-                 nipGroup.classList.remove('d-none');
-                 nimGroup.classList.add('d-none');
-             } else {
-                 nimGroup.classList.add('d-none');
-                 nipGroup.classList.add('d-none');
-             }
-         }
-     </script>
+    <!-- General JS Scripts -->
+    <script src="{{ asset('library/jquery/dist/jquery.min.js') }}"></script>
+    <script src="{{ asset('library/popper.js/dist/umd/popper.js') }}"></script>
+    <script src="{{ asset('library/bootstrap/dist/js/bootstrap.min.js') }}"></script>
+    <script src="{{ asset('library/jquery.nicescroll/dist/jquery.nicescroll.min.js') }}"></script>
+    <script src="{{ asset('library/moment/min/moment.min.js') }}"></script>
+    <script src="{{ asset('js/stisla.js') }}"></script>
+
+    <!-- Template JS File -->
+    <script src="{{ asset('js/scripts.js') }}"></script>
+    <script src="{{ asset('js/custom.js') }}"></script>
+
+    <!-- Custom Script -->
+    <script>
+        document.getElementById('role').addEventListener('change', function () {
+            const role = this.value;
+            const npmGroup = document.getElementById('npm-group');
+            const nipGroup = document.getElementById('nip-group');
+    
+            if (role === 'Mahasiswa') {
+                npmGroup.style.display = 'block';
+                nipGroup.style.display = 'none';
+            } else if (role === 'Dosen') {
+                nipGroup.style.display = 'block';
+                npmGroup.style.display = 'none';
+            } else {
+                npmGroup.style.display = 'none';
+                nipGroup.style.display = 'none';
+            }
+        });
+    </script>
 </body>
 
 </html>

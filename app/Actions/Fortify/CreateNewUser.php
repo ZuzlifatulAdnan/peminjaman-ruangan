@@ -19,22 +19,27 @@ class CreateNewUser implements CreatesNewUsers
      */
     public function create(array $input): User
     {
+        // Custom validation for fullname, status, and other fields
         Validator::make($input, [
             'name' => ['required', 'string', 'max:255'],
-            'email' => [
-                'required',
-                'string',
-                'email',
-                'max:255',
-                Rule::unique(User::class),
-            ],
-            'password' => $this->passwordRules(),
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'role' => ['required', 'string'],
+            'no_whatsapp' => ['required', 'string'],
+            // Optional: Add validation for NPM/NIP based on status
+            'npm' => $input['role'] === 'Mahasiswa' ? ['required', 'string'] : ['nullable'],
+            'nip' => $input['role'] === 'Dosen' ? ['required', 'string'] : ['nullable'],
         ])->validate();
 
+        // Create the new user with custom fields
         return User::create([
             'name' => $input['name'],
             'email' => $input['email'],
             'password' => Hash::make($input['password']),
+            'role' => $input['role'],
+            'no_whatsapp' => $input['no_whatsapp'],
+            'npm' => $input['npm'] ?? null, // If status is 'Mahasiswa', assign npm
+            'nip' => $input['nip'] ?? null, // If status is 'Dosen', assign nip
         ]);
     }
 }
