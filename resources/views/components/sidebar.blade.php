@@ -1,10 +1,16 @@
 <div class="main-sidebar sidebar-style-2">
     <aside id="sidebar-wrapper">
         <div class="sidebar-brand">
-            <a href="{{ route('beranda.index') }}">Dashboard</a>
+            <!-- Logo image -->
+            <a href="{{ route('beranda.index') }}">
+                <img src="{{ asset('img/logo/logo_nama.png') }}" alt="Logo" style="width: 180px; height: auto;">
+            </a>
         </div>
         <div class="sidebar-brand sidebar-brand-sm">
-            <a href="{{ route('beranda.index') }}">DB</a>
+            <!-- Small logo version -->
+            <a href="{{ route('beranda.index') }}">
+                <img src="{{ asset('img/logo/logo.png') }}" alt="Logo" style="width: 40px; height: auto;">
+            </a>
         </div>
         <ul class="sidebar-menu">
             <li class="menu-header">Dashboard</li>
@@ -18,7 +24,8 @@
                         class="fas fa-building"></i><span>Gedung</span></a>
             </li>
             <li class="nav-item dropdown {{ $type_menu === 'pemesanan' ? 'active' : '' }}">
-                <a href="#" class="nav-link has-dropdown"><i class="fas fa-calendar-alt"></i><span>Peminjaman</span></a>
+                <a href="#" class="nav-link has-dropdown"><i
+                        class="fas fa-calendar-alt"></i><span>Peminjaman</span></a>
                 <ul class="dropdown-menu">
                     <li class='{{ Request::is('pemesanan') ? 'active' : '' }}'>
                         <a class="nav-link" href="{{ route('pemesanan.index') }}">Data Peminjaman</a>

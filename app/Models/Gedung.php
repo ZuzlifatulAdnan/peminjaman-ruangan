@@ -11,4 +11,8 @@ class Gedung extends Model
     protected $fillable = [
         'nama',
     ];
+    public function ruangan()
+    {
+        return $this->belongsTo(Ruangan::class);
+    }
 }
