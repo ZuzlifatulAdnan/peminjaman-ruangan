@@ -70,7 +70,7 @@
                                             <th style="width: 3%">No</th>
                                             <th>Nama</th>
                                             <th>Gedung</th>
-                                            <th>Status</th>
+                                            <th class="text-center">Status</th>
                                             <th style="width: 5%" class="text-center">Action</th>
                                         </tr>
                                         @foreach ($ruangans as $index => $ruangan)
@@ -84,8 +84,12 @@
                                                 <td>
                                                     {{ $ruangan->gedung->nama }}
                                                 </td>
-                                                <td>
-                                                    {{ $ruangan->status }}
+                                                <td class="text-center">
+                                                    @if ($ruangan->status == 'Tersedia')
+                                                        <span class="badge badge-success">{{ $ruangan->status }}</span>
+                                                    @else
+                                                        <span class="badge badge-danger">{{ $ruangan->status }}</span>
+                                                    @endif
                                                 </td>
                                                 <td>
                                                     <div class="d-flex justify-content-center">

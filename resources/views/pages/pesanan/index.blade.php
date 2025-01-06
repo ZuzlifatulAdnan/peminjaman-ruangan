@@ -29,18 +29,19 @@
                                     <div class="row">
                                         <div class="form-group col-md-6 mb-3">
                                             <label for="ruangan_id" class="form-label">Ruangan</label>
-                                            <select id="ruangan_id"
-                                                class="form-control select2 @error('ruangan_id') is-invalid @enderror"
-                                                name="ruangan_id" required>
+                                            <select id="ruangan_id" class="form-control select2 @error('ruangan_id') is-invalid @enderror" name="ruangan_id" required>
                                                 <option value="">Pilih Ruangan</option>
-                                                @foreach ($ruangans as $ruangan)
-                                                    <option value="{{ $ruangan->id }}"
-                                                        {{ old('ruangan_id') == $ruangan->id ? 'selected' : '' }}>
-                                                        {{ $ruangan->gedung->nama }} || {{ $ruangan->nama }}
-                                                    </option>
+                                                @foreach ($ruangans->groupBy('gedung.nama') as $gedungNama => $ruanganList)
+                                                    <optgroup label="Gedung {{ $gedungNama }}">
+                                                        @foreach ($ruanganList as $ruangan)
+                                                            <option value="{{ $ruangan->id }}" {{ request('ruangan_id') == $ruangan->id ? 'selected' : '' }}>
+                                                                {{ $ruangan->nama }}
+                                                            </option>
+                                                        @endforeach
+                                                    </optgroup>
                                                 @endforeach
                                             </select>
-                                            @error('user_id')
+                                            @error('ruangan_id')
                                                 <div class="invalid-feedback">{{ $message }}</div>
                                             @enderror
                                         </div>

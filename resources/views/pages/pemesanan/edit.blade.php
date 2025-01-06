@@ -19,7 +19,8 @@
                 </div>
                 <div class="row">
                     <div class="col-12">
-                        <form action="{{ route('pemesanan.update', $pemesanan->id) }}" enctype="multipart/form-data" method="POST">
+                        <form action="{{ route('pemesanan.update', $pemesanan->id) }}" enctype="multipart/form-data"
+                            method="POST">
                             @csrf
                             @method('PUT')
                             <div class="card">
@@ -51,11 +52,15 @@
                                                 class="form-control select2 @error('ruangan_id') is-invalid @enderror"
                                                 name="ruangan_id" required>
                                                 <option value="">Pilih Ruangan</option>
-                                                @foreach ($ruangans as $ruangan)
-                                                    <option value="{{ $ruangan->id }}"
-                                                        {{ old('ruangan_id', $pemesanan->ruangan_id) == $ruangan->id ? 'selected' : '' }}>
-                                                        {{ $ruangan->nama }}
-                                                    </option>
+                                                @foreach ($ruangans->groupBy('gedung.nama') as $gedungNama => $ruanganList)
+                                                    <optgroup label="{{ $gedungNama }}">
+                                                        @foreach ($ruanganList as $ruangan)
+                                                            <option value="{{ $ruangan->id }}"
+                                                                {{ old('ruangan_id', $pemesanan->ruangan_id ?? '') == $ruangan->id ? 'selected' : '' }}>
+                                                                {{ $ruangan->nama }}
+                                                            </option>
+                                                        @endforeach
+                                                    </optgroup>
                                                 @endforeach
                                             </select>
                                             @error('ruangan_id')
@@ -115,9 +120,9 @@
                                     <div class="row">
                                         <div class="form-group col-md-6 mb-3">
                                             <label for="tujuan" class="form-label">Tujuan</label>
-                                            <input type="text"
-                                                class="form-control @error('tujuan') is-invalid @enderror" id="tujuan"
-                                                name="tujuan" value="{{ old('tujuan', $pemesanan->tujuan) }}"
+                                            <input type="text" class="form-control @error('tujuan') is-invalid @enderror"
+                                                id="tujuan" name="tujuan"
+                                                value="{{ old('tujuan', $pemesanan->tujuan) }}"
                                                 placeholder="Masukkan Tujuan">
                                             @error('tujuan')
                                                 <div class="invalid-feedback">{{ $message }}</div>
@@ -130,13 +135,17 @@
                                                 required>
                                                 <option value="">Pilih Status</option>
                                                 <option value="Selesai"
-                                                    {{ old('status', $pemesanan->status) == 'Selesai' ? 'selected' : '' }}>Selesai</option>
+                                                    {{ old('status', $pemesanan->status) == 'Selesai' ? 'selected' : '' }}>
+                                                    Selesai</option>
                                                 <option value="Diterima"
-                                                    {{ old('status', $pemesanan->status) == 'Diterima' ? 'selected' : '' }}>Diterima</option>
+                                                    {{ old('status', $pemesanan->status) == 'Diterima' ? 'selected' : '' }}>
+                                                    Diterima</option>
                                                 <option value="Ditolak"
-                                                    {{ old('status', $pemesanan->status) == 'Ditolak' ? 'selected' : '' }}>Ditolak</option>
+                                                    {{ old('status', $pemesanan->status) == 'Ditolak' ? 'selected' : '' }}>
+                                                    Ditolak</option>
                                                 <option value="Diproses"
-                                                    {{ old('status', $pemesanan->status) == 'Diproses' ? 'selected' : '' }}>Diproses</option>
+                                                    {{ old('status', $pemesanan->status) == 'Diproses' ? 'selected' : '' }}>
+                                                    Diproses</option>
                                             </select>
                                             @error('status')
                                                 <div class="invalid-feedback">{{ $message }}</div>
@@ -159,7 +168,7 @@
 @push('scripts')
     <script src="{{ asset('library/select2/dist/js/select2.full.min.js') }}"></script>
     <script>
-        $(document).ready(function () {
+        $(document).ready(function() {
             $('.select2').select2();
         });
     </script>

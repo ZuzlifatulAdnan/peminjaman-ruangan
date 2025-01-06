@@ -88,7 +88,7 @@
                                                     <li class="list-group-item d-flex justify-content-between align-items-center">
                                                         {{ $ruangan->nama }}
                                                         @if ($ruangan->status == 'Tersedia')
-                                                            <a href="{{ route('peminjaman.input', $ruangan->id) }}" class="badge badge-success">
+                                                            <a href="{{ route('peminjaman.input', ['ruangan_id' => $ruangan->id]) }}" class="badge badge-success">
                                                                 Tersedia
                                                             </a>
                                                         @else
