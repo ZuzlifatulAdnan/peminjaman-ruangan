@@ -30,118 +30,125 @@
 @endpush
 
 @section('main')
-    <div class="main-content">
-        <section class="section">
-            <div class="section-body">
-                <div class="row">
-                    <div class="col-12">
-                        @include('layouts.alert')
+    @if (Auth::user()->role == 'Admin')
+        <div class="main-content">
+            <section class="section">
+                <div class="section-body">
+                    <div class="row">
+                        <div class="col-12">
+                            @include('layouts.alert')
+                        </div>
                     </div>
-                </div>
-                <div class="row">
-                    <div class="col-12">
-                        <form action="{{ route('user.store') }}" enctype="multipart/form-data" method="POST">
-                            @csrf
-                            <div class="card">
-                                <div class="card-header">
-                                    <h4>Tambah User</h4>
-                                </div>
-                                <div class="card-body">
-                                    <div class="row">
-                                        <!-- Name -->
-                                        <div class="form-group col-md-6 mb-3">
-                                            <label for="name" class="form-label">Name</label>
-                                            <input type="text" class="form-control" id="name" name="name"
-                                                value="{{ old('name') }}" placeholder="Masukkan Nama" required>
-                                            @error('name')
-                                                <div class="invalid-feedback">{{ $message }}</div>
-                                            @enderror
-                                        </div>
-                                        <!-- Email -->
-                                        <div class="form-group col-md-6 mb-3">
-                                            <label for="email" class="form-label">Email</label>
-                                            <input type="email" class="form-control @error('email') is-invalid @enderror"
-                                                id="email" name="email" value="{{ old('email') }}"
-                                                placeholder="Masukkan Email" required>
-                                            @error('email')
-                                                <div class="invalid-feedback">{{ $message }}</div>
-                                            @enderror
-                                        </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <form action="{{ route('user.store') }}" enctype="multipart/form-data" method="POST">
+                                @csrf
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h4>Tambah User</h4>
                                     </div>
-
-                                    <!-- Role Selection -->
-                                    <div class="row">
-                                        <div class="form-group col-md-6 mb-3">
-                                            <label for="password" class="form-label">Password</label>
-                                            <input type="password"
-                                                class="form-control @error('password') is-invalid @enderror"
-                                                id="password" name="password" placeholder="Masukkan Password 8 Karakter" required>
-                                            @error('password')
-                                                <div class="invalid-feedback">
-                                                    {{ $message }}
-                                                </div>
-                                            @enderror
-                                        </div>
-                                        <div class="form-group col-md-6 mb-3">
-                                            <label for="role" class="form-label">Role</label>
-                                            <select id="role" class="form-control" name="role" required
-                                                onchange="toggleAdditionalInputs()">
-                                                <option value="">Pilih Status</option>
-                                                <option value="Admin">Admin</option>
-                                                <option value="PLPP">PLPP</option>
-                                                <option value="Mahasiswa">Mahasiswa</option>
-                                                <option value="Dosen">Dosen</option>
-                                            </select>
-                                            @error('role')
-                                                <div class="invalid-feedback">{{ $message }}</div>
-                                            @enderror
-                                        </div>
-                                    </div>
-                                    <!-- No WhatsApp -->
-                                    <div class="row">
-                                        <div class="form-group col-md-6 mb-3">
-                                            <label for="no_whatsapp" class="form-label">No WhatsApp</label>
-                                            <input type="text" class="form-control" id="no_whatsapp" name="no_whatsapp"
-                                                value="{{ old('no_whatsapp') }}" placeholder="Masukkan No WhatsApp Aktif"
-                                                required>
-                                            @error('no_whatsapp')
-                                                <div class="invalid-feedback">{{ $message }}</div>
-                                            @enderror
-                                        </div>
-                                        <div class="form-group col-md-6">
-                                            <label for="image" class="form-label">Image</label>
-                                            <input type="file" class="form-control @error('image') is-invalid @enderror"
-                                                id="image" name="image" accept="image/*" required>
-                                            @error('image')
-                                                <div class="invalid-feedback">{{ $message }}</div>
-                                            @enderror
-                                            <div id="image-preview">
-                                                <span>Preview Image</span>
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <!-- Name -->
+                                            <div class="form-group col-md-6 mb-3">
+                                                <label for="name" class="form-label">Name</label>
+                                                <input type="text" class="form-control" id="name" name="name"
+                                                    value="{{ old('name') }}" placeholder="Masukkan Nama" required>
+                                                @error('name')
+                                                    <div class="invalid-feedback">{{ $message }}</div>
+                                                @enderror
+                                            </div>
+                                            <!-- Email -->
+                                            <div class="form-group col-md-6 mb-3">
+                                                <label for="email" class="form-label">Email</label>
+                                                <input type="email"
+                                                    class="form-control @error('email') is-invalid @enderror" id="email"
+                                                    name="email" value="{{ old('email') }}" placeholder="Masukkan Email"
+                                                    required>
+                                                @error('email')
+                                                    <div class="invalid-feedback">{{ $message }}</div>
+                                                @enderror
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="form-group col-md-6 d-none" id="npm-group">
-                                            <label for="npm">NIM</label>
-                                            <input id="npm" type="text" class="form-control" name="npm">
-                                        </div>
 
-                                        <div class="form-group col-md-6 d-none" id="nip-group">
-                                            <label for="nip">NIP</label>
-                                            <input id="nip" type="text" class="form-control" name="nip">
+                                        <!-- Role Selection -->
+                                        <div class="row">
+                                            <div class="form-group col-md-6 mb-3">
+                                                <label for="password" class="form-label">Password</label>
+                                                <input type="password"
+                                                    class="form-control @error('password') is-invalid @enderror"
+                                                    id="password" name="password"
+                                                    placeholder="Masukkan Password 8 Karakter" required>
+                                                @error('password')
+                                                    <div class="invalid-feedback">
+                                                        {{ $message }}
+                                                    </div>
+                                                @enderror
+                                            </div>
+                                            <div class="form-group col-md-6 mb-3">
+                                                <label for="role" class="form-label">Role</label>
+                                                <select id="role" class="form-control" name="role" required
+                                                    onchange="toggleAdditionalInputs()">
+                                                    <option value="">Pilih Status</option>
+                                                    <option value="Admin">Admin</option>
+                                                    <option value="PLPP">PLPP</option>
+                                                    <option value="Mahasiswa">Mahasiswa</option>
+                                                    <option value="Dosen">Dosen</option>
+                                                </select>
+                                                @error('role')
+                                                    <div class="invalid-feedback">{{ $message }}</div>
+                                                @enderror
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <button type="submit" class="btn btn-primary mt-2">Simpan</button>
+                                        <!-- No WhatsApp -->
+                                        <div class="row">
+                                            <div class="form-group col-md-6 mb-3">
+                                                <label for="no_whatsapp" class="form-label">No WhatsApp</label>
+                                                <input type="text" class="form-control" id="no_whatsapp"
+                                                    name="no_whatsapp" value="{{ old('no_whatsapp') }}"
+                                                    placeholder="Masukkan No WhatsApp Aktif" required>
+                                                @error('no_whatsapp')
+                                                    <div class="invalid-feedback">{{ $message }}</div>
+                                                @enderror
+                                            </div>
+                                            <div class="form-group col-md-6">
+                                                <label for="image" class="form-label">Image</label>
+                                                <input type="file"
+                                                    class="form-control @error('image') is-invalid @enderror" id="image"
+                                                    name="image" accept="image/*" required>
+                                                @error('image')
+                                                    <div class="invalid-feedback">{{ $message }}</div>
+                                                @enderror
+                                                <div id="image-preview">
+                                                    <span>Preview Image</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="form-group col-md-6 d-none" id="npm-group">
+                                                <label for="npm">NIM</label>
+                                                <input id="npm" type="text" class="form-control" name="npm">
+                                            </div>
+
+                                            <div class="form-group col-md-6 d-none" id="nip-group">
+                                                <label for="nip">NIP</label>
+                                                <input id="nip" type="text" class="form-control" name="nip">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <button type="submit" class="btn btn-primary mt-2">Simpan</button>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        </form>
+                            </form>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </section>
-    </div>
+            </section>
+        </div>
+    @else
+    @endif
+
 @endsection
 
 @push('scripts')
@@ -162,7 +169,8 @@
                     }
                     const reader = new FileReader();
                     reader.onload = function(event) {
-                        imagePreview.innerHTML = `<img src="${event.target.result}" alt="Image Preview">`;
+                        imagePreview.innerHTML =
+                            `<img src="${event.target.result}" alt="Image Preview">`;
                     }
                     reader.readAsDataURL(file);
                 } else {

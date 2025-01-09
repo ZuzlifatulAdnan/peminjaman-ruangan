@@ -182,11 +182,13 @@ class PemesananController extends Controller
         // arahkan ke file pages/users/edit
         return view('pages.pemesanan.show', compact('pemesanan', 'type_menu'));
     }
-    public function export(Request $request)
-    {
-        $bulan = $request->input('bulan');
-        $tahun = $request->input('tahun');
-        
-        return Excel::download(new PemesananExport($bulan, $tahun), 'pemesanan_export.xlsx');
-    }
+    // public function export(Request $request)
+    // {
+    //     $bulan = $request->input('bulan');
+    //     $tahun = $request->input('tahun');
+
+    //     // Pastikan Anda telah mendefinisikan route name dengan benar
+    //     return Excel::download(new PemesananExport($bulan, $tahun), 'pemesanan_export.xlsx');
+    // }
+
 }

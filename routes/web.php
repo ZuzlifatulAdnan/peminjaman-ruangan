@@ -2,7 +2,9 @@
 
 use App\Exports\PemesananExport;
 use App\Http\Controllers\BerandaController;
+use App\Http\Controllers\ExportController;
 use App\Http\Controllers\GedungController;
+use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\PemesananController;
 use App\Http\Controllers\PeminjamanController;
 use App\Http\Controllers\PesananController;
@@ -34,7 +36,9 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('gedung', GedungController::class);
     // Pemesanan
     Route::resource('pemesanan', PemesananController::class);
-    Route::get('/pemesanan/export', [PemesananController::class, 'export'])->name('pemesanan.export');
+    Route::resource('export', ExportController::class);
+    // Route::get('/export/pemesanan', [PemesananController::class, 'export'])->name('pemesanan.export');
+
     // peminjaman
     Route::get('/peminjaman/riwayat', [PeminjamanController::class, 'index'])->name('peminjaman.index');
     Route::get('/peminjaman/riwayat/detail/{id}', [PeminjamanController::class, 'detail'])->name('peminjaman.detail');
@@ -52,6 +56,8 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('ukm', UkmController::class);
     // user
     Route::resource('user', UserController::class);
+
+    Route::get('/send-notifications', [NotificationController::class, 'sendNotifications']);
 
     // Route::resource('profile', ProfileController::class);
     Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');

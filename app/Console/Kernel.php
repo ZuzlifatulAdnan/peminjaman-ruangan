@@ -4,6 +4,7 @@ namespace App\Console;
 
 use App\Models\Pemesanan;
 use App\Notifications\PemesananStatusNotification;
+use App\Notifications\WhatsAppNotification;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -13,10 +14,8 @@ class Kernel extends ConsoleKernel
      * Define the application's command schedule.
      */
     protected function schedule(Schedule $schedule)
-    {
-        $schedule->call(function () {
-            app(\App\Http\Controllers\PeminjamanController::class)->kirimNotifikasiHabis();
-        })->everyMinute(); // Jalankan setiap menit
+    { 
+        $schedule->command('send:whatsapp-reminders')->everyMinute();
     }
 
     /**
@@ -28,5 +27,5 @@ class Kernel extends ConsoleKernel
 
         require base_path('routes/console.php');
     }
-
+ 
 }

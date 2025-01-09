@@ -3,58 +3,58 @@
 namespace App\Exports;
 
 use App\Models\Pemesanan;
-use Maatwebsite\Excel\Concerns\FromQuery;
+use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
-use Maatwebsite\Excel\Concerns\WithMapping;
 
-class PemesananExport implements FromQuery, WithHeadings, WithMapping
+class PemesananExport implements FromCollection, WithHeadings
 {
     protected $bulan;
     protected $tahun;
 
-    public function __construct($bulan, $tahun)
+    // Constructor untuk menerima parameter bulan dan tahun
+    public function __construct($bulan = null, $tahun = null)
     {
         $this->bulan = $bulan;
         $this->tahun = $tahun;
     }
 
-    public function query()
+    // Mengambil data yang akan diekspor
+    public function collection()
     {
-        // Query Pemesanan data with optional filters for bulan and tahun
-        $query = Pemesanan::with(['user', 'ruangan']);
-
-        if ($this->bulan) {
-            $query->whereMonth('tanggal_pesan', $this->bulan);
-        }
-
-        if ($this->tahun) {
-            $query->whereYear('tanggal_pesan', $this->tahun);
-        }
-
-        return $query;
+        return Pemesanan::with(['user', 'ruangan', 'ukm'])
+            ->when($this->bulan, function ($query) {
+                $query->whereMonth('tanggal_pesan', $this->bulan);
+            })
+            ->when($this->tahun, function ($query) {
+                $query->whereYear('tanggal_pesan', $this->tahun);
+            })
+            ->get()
+            ->map(function ($pemesanan) {
+                return [
+                    'Nama User' => $pemesanan->user->name ?? '-',
+                    'Ruangan' => $pemesanan->ruangan->nama ?? '-',
+                    'UKM' => $pemesanan->ukm->nama ?? '-',
+                    'Tanggal Pesan' => $pemesanan->tanggal_pesan,
+                    'Waktu Mulai' => $pemesanan->waktu_mulai,
+                    'Waktu Selesai' => $pemesanan->waktu_selesai,
+                    'Tujuan' => $pemesanan->tujuan ?? '-',
+                    'Status' => $pemesanan->status ?? '-',
+                ];
+            });
     }
 
+    // Menambahkan header untuk file Excel
     public function headings(): array
     {
         return [
-            'No',
-            'Nama Pemesan',
+            'Nama User',
             'Ruangan',
-            'Status',
-            'Tanggal Pemesanan',
+            'UKM',
+            'Tanggal Pesan',
+            'Waktu Mulai',
+            'Waktu Selesai',
             'Tujuan',
-        ];
-    }
-
-    public function map($pemesan): array
-    {
-        return [
-            $pemesan->id,
-            $pemesan->user->name,
-            $pemesan->ruangan->nama,
-            $pemesan->status,
-            $pemesan->tanggal_pesan->format('d-m-Y'),
-            $pemesan->tujuan,
+            'Status',
         ];
     }
 }

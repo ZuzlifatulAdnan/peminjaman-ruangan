@@ -15,6 +15,14 @@
     <!-- CSS Libraries -->
     <link rel="stylesheet" href="{{ asset('library/bootstrap-social/bootstrap-social.css') }}">
 
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="{{ asset('favicon/favicon.ico') }}" type="image/x-icon">
+    <link rel="icon" href="{{ asset('favicon/favicon.ico') }}" type="image/x-icon">
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('favicon/apple-touch-icon.png') }}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('favicon/favicon-32x32.png') }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('favicon/favicon-16x16.png') }}">
+    <link rel="manifest" href="{{ asset('favicon//site.webmanifest') }}">
+
     <!-- Template CSS -->
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
     <link rel="stylesheet" href="{{ asset('css/components.css') }}">
@@ -83,7 +91,7 @@
                 </div>
                 <div class="col-lg-8 col-12 d-none d-md-block"
                     style="background-repeat: no-repeat; background-size: cover"
-                    data-background="https://www.darmajaya.ac.id/wp-content/uploads/3-161.jpg">
+                    data-background="{{ asset('img/logo/dj.jpg') }}">
                 </div>
             </div>
         </section>

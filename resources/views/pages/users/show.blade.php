@@ -34,78 +34,82 @@
 @endpush
 
 @section('main')
-    <div class="main-content">
-        <section class="section">
-            <div class="section-body">
-                <div class="card">
-                    <div class="card-header">
-                        <h4>Detail User</h4>
-                    </div>
-                    <div class="card-body">
-                        <div class="row">
-                            <!-- Name -->
-                            <div class="col-md-6 detail-value">
-                                <span class="detail-header">Name:</span>
-                                <p>{{ $user->name }}</p>
-                            </div>
-
-                            <!-- Email -->
-                            <div class="col-md-6 detail-value">
-                                <span class="detail-header">Email:</span>
-                                <p>{{ $user->email }}</p>
-                            </div>
+    @if (Auth::user()->role == 'Admin')
+        <div class="main-content">
+            <section class="section">
+                <div class="section-body">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4>Detail User</h4>
                         </div>
-
-                        <div class="row">
-                            <!-- Role -->
-                            <div class="col-md-6 detail-value">
-                                <span class="detail-header">Role:</span>
-                                <p>{{ $user->role }}</p>
-                            </div>
-
-                            <!-- No WhatsApp -->
-                            <div class="col-md-6 detail-value">
-                                <span class="detail-header">No WhatsApp:</span>
-                                <p>{{ $user->no_whatsapp }}</p>
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <!-- NIM or NIP -->
-                            @if($user->role === 'Mahasiswa')
+                        <div class="card-body">
+                            <div class="row">
+                                <!-- Name -->
                                 <div class="col-md-6 detail-value">
-                                    <span class="detail-header">NIM:</span>
-                                    <p>{{ $user->npm }}</p>
+                                    <span class="detail-header">Name:</span>
+                                    <p>{{ $user->name }}</p>
                                 </div>
-                            @elseif($user->role === 'Dosen')
-                                <div class="col-md-6 detail-value">
-                                    <span class="detail-header">NIP:</span>
-                                    <p>{{ $user->nip }}</p>
-                                </div>
-                            @endif
-                        </div>
 
-                        <div class="row">
-                            <!-- Image -->
-                            <div class="col-md-6 detail-value">
-                                <span class="detail-header">Image:</span>
-                                <div class="image-preview">
-                                    @if ($user->image)
-                                        <img src="{{ asset('img/user/' . $user->image) }}" alt="User Image">
-                                    @else
-                                        <span>No Image</span>
-                                    @endif
+                                <!-- Email -->
+                                <div class="col-md-6 detail-value">
+                                    <span class="detail-header">Email:</span>
+                                    <p>{{ $user->email }}</p>
                                 </div>
                             </div>
-                        </div>
 
-                        <div class="mt-4">
-                            <a href="{{ route('user.edit', $user->id) }}" class="btn btn-primary">Edit</a>
-                            <a href="{{ route('user.index') }}" class="btn btn-warning">Back</a>
+                            <div class="row">
+                                <!-- Role -->
+                                <div class="col-md-6 detail-value">
+                                    <span class="detail-header">Role:</span>
+                                    <p>{{ $user->role }}</p>
+                                </div>
+
+                                <!-- No WhatsApp -->
+                                <div class="col-md-6 detail-value">
+                                    <span class="detail-header">No WhatsApp:</span>
+                                    <p>{{ $user->no_whatsapp }}</p>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <!-- NIM or NIP -->
+                                @if ($user->role === 'Mahasiswa')
+                                    <div class="col-md-6 detail-value">
+                                        <span class="detail-header">NIM:</span>
+                                        <p>{{ $user->npm }}</p>
+                                    </div>
+                                @elseif($user->role === 'Dosen')
+                                    <div class="col-md-6 detail-value">
+                                        <span class="detail-header">NIP:</span>
+                                        <p>{{ $user->nip }}</p>
+                                    </div>
+                                @endif
+                            </div>
+
+                            <div class="row">
+                                <!-- Image -->
+                                <div class="col-md-6 detail-value">
+                                    <span class="detail-header">Image:</span>
+                                    <div class="image-preview">
+                                        @if ($user->image)
+                                            <img src="{{ asset('img/user/' . $user->image) }}" alt="User Image">
+                                        @else
+                                            <span>No Image</span>
+                                        @endif
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="mt-4">
+                                <a href="{{ route('user.edit', $user->id) }}" class="btn btn-primary">Edit</a>
+                                <a href="{{ route('user.index') }}" class="btn btn-warning">Back</a>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </section>
-    </div>
+            </section>
+        </div>
+    @else
+    @endif
+
 @endsection

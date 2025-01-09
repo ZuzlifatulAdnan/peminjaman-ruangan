@@ -9,6 +9,7 @@
                 <h4>Selamat Datang ! {{ Auth::user()->name }} Di Sistem Peminjaman Ruangan</h4>
             </div>
             <div class="section-body">
+                @if (Auth::user()->role == 'Admin' || Auth::user()->role == 'PLPP')
                 <div class="row">
                     <!-- Statistik -->
                     <div class="col-lg-3 col-md-6 col-sm-6">
@@ -79,24 +80,28 @@
                             @foreach ($ruangans->groupBy('gedung.nama') as $gedungNama => $ruanganGroup)
                                 <div class="col-md-6 col-lg-4">
                                     <div class="card">
-                                        <div class="card-header bg-light">
-                                            <h5>{{ $gedungNama }}</h5>
+                                        <div class="card-header">
+                                            <h5 class="card-title">Gedung {{ $gedungNama }}</h5>
                                         </div>
                                         <div class="card-body">
-                                            <ul class="list-group">
+                                            <div class="row">
                                                 @foreach ($ruanganGroup as $ruangan)
-                                                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                                                        {{ $ruangan->nama }}
+                                                    <div class="col-12 mb-2">
                                                         @if ($ruangan->status == 'Tersedia')
-                                                            <a href="{{ route('peminjaman.input', ['ruangan_id' => $ruangan->id]) }}" class="badge badge-success">
-                                                                Tersedia
+                                                            <a href="{{ route('peminjaman.input', ['ruangan_id' => $ruangan->id]) }}" 
+                                                               class="d-flex justify-content-between align-items-center border rounded p-3 text-decoration-none text-dark shadow-sm hover-shadow">
+                                                                <span class="font-weight-bold">{{ $ruangan->nama }}</span>
+                                                                <span class="badge badge-success">Tersedia</span>
                                                             </a>
                                                         @else
-                                                            <span class="badge badge-danger">Tidak Tersedia</span>
+                                                            <div class="d-flex justify-content-between align-items-center border rounded p-3 bg-light shadow-sm">
+                                                                <span class="font-weight-bold">{{ $ruangan->nama }}</span>
+                                                                <span class="badge badge-danger">Tidak Tersedia</span>
+                                                            </div>
                                                         @endif
-                                                    </li>
+                                                    </div>
                                                 @endforeach
-                                            </ul>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -104,8 +109,44 @@
                         </div>
                     </div>
                 </div>
-                
-                <!-- End Daftar Ruangan -->
+                @else
+                <div class="row mt-4">
+                    <div class="col-12">
+                        <h4 class="mb-4">Daftar Ruangan</h4>
+                        <div class="row">
+                            @foreach ($ruangans->groupBy('gedung.nama') as $gedungNama => $ruanganGroup)
+                                <div class="col-md-6 col-lg-4">
+                                    <div class="card">
+                                        <div class="card-header">
+                                            <h5 class="card-title">Gedung {{ $gedungNama }}</h5>
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="row">
+                                                @foreach ($ruanganGroup as $ruangan)
+                                                    <div class="col-12 mb-2">
+                                                        @if ($ruangan->status == 'Tersedia')
+                                                            <a href="{{ route('peminjaman.input', ['ruangan_id' => $ruangan->id]) }}" 
+                                                               class="d-flex justify-content-between align-items-center border rounded p-3 text-decoration-none text-dark shadow-sm hover-shadow">
+                                                                <span class="font-weight-bold">{{ $ruangan->nama }}</span>
+                                                                <span class="badge badge-success">Tersedia</span>
+                                                            </a>
+                                                        @else
+                                                            <div class="d-flex justify-content-between align-items-center border rounded p-3 bg-light shadow-sm">
+                                                                <span class="font-weight-bold">{{ $ruangan->nama }}</span>
+                                                                <span class="badge badge-danger">Tidak Tersedia</span>
+                                                            </div>
+                                                        @endif
+                                                    </div>
+                                                @endforeach
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
+                </div>  
+                @endif
             </div>
         </section>
     </div>

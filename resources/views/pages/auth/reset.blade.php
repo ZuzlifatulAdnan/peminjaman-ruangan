@@ -1,38 +1,46 @@
 <!DOCTYPE html>
 <html lang="en">
 
-    <head>
-        <meta charset="UTF-8">
-        <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
-        <title>Reset Password | Sistem Peminjaman Ruangan</title>
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
+    <title>Reset Password | Sistem Peminjaman Ruangan</title>
 
-        <!-- General CSS Files -->
-        <link rel="stylesheet" href="{{ asset('library/bootstrap/dist/css/bootstrap.min.css') }}">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
-            integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="
-            crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- General CSS Files -->
+    <link rel="stylesheet" href="{{ asset('library/bootstrap/dist/css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
+        integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
 
-        <!-- CSS Libraries -->
-        <link rel="stylesheet" href="{{ asset('library/bootstrap-social/bootstrap-social.css') }}">
+    <!-- CSS Libraries -->
+    <link rel="stylesheet" href="{{ asset('library/bootstrap-social/bootstrap-social.css') }}">
 
-        <!-- Template CSS -->
-        <link rel="stylesheet" href="{{ asset('css/style.css') }}">
-        <link rel="stylesheet" href="{{ asset('css/components.css') }}">
-    </head>
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="{{ asset('favicon/favicon.ico') }}" type="image/x-icon">
+    <link rel="icon" href="{{ asset('favicon/favicon.ico') }}" type="image/x-icon">
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('favicon/apple-touch-icon.png') }}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('favicon/favicon-32x32.png') }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('favicon/favicon-16x16.png') }}">
+    <link rel="manifest" href="{{ asset('favicon//site.webmanifest') }}">
 
-    <body>
-        <div id="app">
-            <section class="section">
-                <div class="d-flex align-items-stretch flex-wrap">
-                    <div
-                        class="col-lg-4 col-md-6 col-12  min-vh-100  d-flex justify-content-center align-items-center bg-white">
-                        <div class="">
-                            {{-- <img src="{{ asset('img/stisla-fill.svg') }}" alt="logo" width="80"
+    <!-- Template CSS -->
+    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/components.css') }}">
+</head>
+
+<body>
+    <div id="app">
+        <section class="section">
+            <div class="d-flex align-items-stretch flex-wrap">
+                <div
+                    class="col-lg-4 col-md-6 col-12  min-vh-100  d-flex justify-content-center align-items-center bg-white">
+                    <div class="">
+                        {{-- <img src="{{ asset('img/stisla-fill.svg') }}" alt="logo" width="80"
                             class="shadow-light rounded-circle mb-5 mt-2"> --}}
-                            <h1 class="text-primary font-weight-bold">Reset Password</h4>
-                                <h4 class="font-weight-bold text-dark">
-                                    Sistem Peminjaman Ruangan
-                                </h4>
+                        <h1 class="text-primary font-weight-bold">Reset Password</h4>
+                            <h4 class="font-weight-bold text-dark">
+                                Sistem Peminjaman Ruangan
+                            </h4>
                             <p class="text-muted">
                                 Mohon isi password dengan benar
                             </p>
@@ -113,34 +121,34 @@
                             </form>
 
 
-                        </div>
                     </div>
-                    <div class="col-lg-8 col-12 d-none d-md-block"
-                        style="background-repeat: no-repeat; background-size: cover"
-                        data-background="https://www.darmajaya.ac.id/wp-content/uploads/3-161.jpg">
-                    </div>
-
-
                 </div>
-            </section>
-        </div>
+                <div class="col-lg-8 col-12 d-none d-md-block"
+                    style="background-repeat: no-repeat; background-size: cover"
+                    data-background="{{ asset('img/logo/dj.jpg') }}">
+                </div>
 
-        <!-- General JS Scripts -->
-        <script src="{{ asset('library/jquery/dist/jquery.min.js') }}"></script>
-        <script src="{{ asset('library/popper.js/dist/umd/popper.js') }}"></script>
-        <script src="{{ asset('library/tooltip.js/dist/umd/tooltip.js') }}"></script>
-        <script src="{{ asset('library/bootstrap/dist/js/bootstrap.min.js') }}"></script>
-        <script src="{{ asset('library/jquery.nicescroll/dist/jquery.nicescroll.min.js') }}"></script>
-        <script src="{{ asset('library/moment/min/moment.min.js') }}"></script>
-        <script src="{{ asset('js/stisla.js') }}"></script>
 
-        <!-- JS Libraies -->
+            </div>
+        </section>
+    </div>
 
-        <!-- Page Specific JS File -->
+    <!-- General JS Scripts -->
+    <script src="{{ asset('library/jquery/dist/jquery.min.js') }}"></script>
+    <script src="{{ asset('library/popper.js/dist/umd/popper.js') }}"></script>
+    <script src="{{ asset('library/tooltip.js/dist/umd/tooltip.js') }}"></script>
+    <script src="{{ asset('library/bootstrap/dist/js/bootstrap.min.js') }}"></script>
+    <script src="{{ asset('library/jquery.nicescroll/dist/jquery.nicescroll.min.js') }}"></script>
+    <script src="{{ asset('library/moment/min/moment.min.js') }}"></script>
+    <script src="{{ asset('js/stisla.js') }}"></script>
 
-        <!-- Template JS File -->
-        <script src="{{ asset('js/scripts.js') }}"></script>
-        <script src="{{ asset('js/custom.js') }}"></script>
-    </body>
+    <!-- JS Libraies -->
+
+    <!-- Page Specific JS File -->
+
+    <!-- Template JS File -->
+    <script src="{{ asset('js/scripts.js') }}"></script>
+    <script src="{{ asset('js/custom.js') }}"></script>
+</body>
 
 </html>
