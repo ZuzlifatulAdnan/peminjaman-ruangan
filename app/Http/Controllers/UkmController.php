@@ -17,7 +17,7 @@ class UkmController extends Controller
         $keyword = trim($request->input('nama'));
         $ukms = Ukm::when($request->nama, function ($query, $nama) {
             $query->where('nama', 'like', '%' . $nama . '%');
-        })->latest()->paginate(4);
+        })->latest()->paginate(10);
 
         $ukms->appends(['nama' => $keyword]);
 
